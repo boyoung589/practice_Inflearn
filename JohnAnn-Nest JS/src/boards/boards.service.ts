@@ -15,9 +15,9 @@ export class BoardsService {
     private boardRepository: BoardRepository,
   ) {}
 
-  async getAllBoards(): Promise<Board[]> {
-    return this.boardRepository.find();
-  }
+  // async getAllBoards(): Promise<Board[]> {
+  //   return this.boardRepository.find();
+  // }
   // getAllBoards(): Board[] {
   //   //모든 게시물 가져오기
   //   return this.boards;

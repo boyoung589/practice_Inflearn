@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   ParseIntPipe,
   Patch,
@@ -28,6 +29,7 @@ export class BoardsController {
   //   constructor(boardsService: BoardsService) {
   //     this.boardsService = boardsService;
   //   }
+  private logger = new Logger('BoardsController');
   constructor(private boardsService: BoardsService) {}
   // // 접근 제한자를 생성자(constructor) 파라미터에 선언하면ㅕ
   // // 접근 제한자가 사용된 생성자 파라미터는 암묵적으로 클래스 프로퍼티로 선언된다
@@ -36,13 +38,14 @@ export class BoardsController {
   //   //모든 게시물 가져오기
   //   return this.boardsService.getAllBoards(); //모든 게시물을 가져오는 핸들러
   // }
-  @Get()
-  getAllBoarders(): Promise<Board[]> {
-    return this.boardsService.getAllBoards();
-  }
+  // @Get()
+  // getAllBoarders(): Promise<Board[]> {
+  //   return this.boardsService.getAllBoards();
+  // }
 
   @Get()
   getSpecificUsersBoards(@GetUser() user: User): Promise<Board[]> {
+    this.logger.verbose(`User ${user.username} trying to get all boards`);
     return this.boardsService.getSpecificUsersBoards(user);
   }
 
@@ -72,6 +75,8 @@ export class BoardsController {
     @Body() createBoardDto: CreateBoardDto,
     @GetUser() user: User,
   ): Promise<Board> {
+    this.logger.verbose(`User ${user.username} creating a new board. 
+    Payload: ${JSON.stringify(createBoardDto)}`);
     return this.boardsService.createBoard(createBoardDto, user);
   }
 
